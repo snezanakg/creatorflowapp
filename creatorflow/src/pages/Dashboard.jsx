@@ -1,22 +1,38 @@
 
+import { useState, useEffect } from "react";
+
 export default function Dashboard() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("creatorflowData")) || [];
+    setItems(data);
+  }, []);
+
+  const removeItem = (id) => {
+    const updated = items.filter(item => item.id !== id);
+    setItems(updated);
+    localStorage.setItem("creatorflowData", JSON.stringify(updated));
+  };
+
   return (
-    <div className="p-8 text-gray-200">
-      <h2 className="text-3xl font-bold mb-6">Welcome back, Creator 👋</h2>
-      <div className="grid grid-cols-3 gap-6">
-        <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition">
-          <h3 className="text-xl font-semibold text-white mb-2">Your Templates</h3>
-          <p className="text-gray-400">Manage and edit your saved content.</p>
-        </div>
-        <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition">
-          <h3 className="text-xl font-semibold text-white mb-2">Performance</h3>
-          <p className="text-gray-400">Check your growth and engagement stats.</p>
-        </div>
-        <div className="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition">
-          <h3 className="text-xl font-semibold text-white mb-2">AI Generator</h3>
-          <p className="text-gray-400">Generate ideas and content fast.</p>
-        </div>
-      </div>
+    <div className="max-w-2xl mx-auto mt-8">
+      <h2 className="text-2xl font-semibold mb-4">Your Saved Content</h2>
+      {items.length === 0 ? (
+        <p className="text-gray-500">No saved content yet.</p>
+      ) : (
+        items.map(item => (
+          <div key={item.id} className="border rounded p-4 mb-4 bg-white shadow">
+            <p className="whitespace-pre-line mb-2">{item.text}</p>
+            <button
+              onClick={() => removeItem(item.id)}
+              className="text-red-500 hover:underline"
+            >
+              Delete
+            </button>
+          </div>
+        ))
+      )}
     </div>
   );
 }

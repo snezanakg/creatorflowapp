@@ -1,21 +1,24 @@
-import { Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
-import Generator from "./pages/Generator"; 
 
 export default function App() {
   return (
-    <div className="flex h-screen bg-gray-950 text-gray-100">
-      <Sidebar />
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Navbar />
-        <main className="flex-1 overflow-y-auto">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-          </Routes>
-        </main>
-      </div>
-    </div>
+    <>
+      <nav className="flex justify-between items-center p-4 bg-gray-900 text-white">
+        <h1 className="text-xl font-bold">CreatorFlow</h1>
+        <div className="space-x-4">
+          <Link to="/" className="hover:underline">Home</Link>
+          <Link to="/dashboard" className="hover:underline">Dashboard</Link>
+        </div>
+      </nav>
+
+      <main className="p-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </main>
+    </>
   );
 }
