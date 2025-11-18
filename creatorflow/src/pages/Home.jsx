@@ -76,11 +76,34 @@ export default function Home() {
       </button>
 
       {output && (
-        <div className="w-full max-w-2xl mt-6 bg-gray-800 p-4 rounded-xl whitespace-pre-wrap">
-          <h2 className="font-semibold text-lg mb-2">✨ Generated Output</h2>
-          {output}
-        </div>
-      )}
+  <div className="w-full max-w-2xl mt-6 bg-gray-800 p-4 rounded-xl whitespace-pre-wrap relative">
+    <h2 className="font-semibold text-lg mb-2">✨ Generated Output</h2>
+    <p>{output}</p>
+
+    <div className="flex gap-3 mt-4">
+      <button
+        onClick={() => {
+          navigator.clipboard.writeText(output);
+          alert("✅ Copied to clipboard!");
+        }}
+        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg"
+      >
+        Copy
+      </button>
+
+      <button
+        onClick={() => {
+          const blob = new Blob([output], { type: "text/plain" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "creatorflow-output.txt";
+          link.click();
+        }}
+        className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg"
+      >
+        Download .txt
+      </button>
     </div>
-  );
-}
+  </div>
+)}
+
